@@ -1,0 +1,61 @@
+Metadata-Version: 2.1
+Name: kthread-sleep
+Version: 0.11
+Summary: A killable sleep function for kthread
+Home-page: https://github.com/hansalemaos/kthread_sleep
+Author: Johannes Fischer
+Author-email: <aulasparticularesdealemaosp@gmail.com>
+License: MIT
+Keywords: threads,kill,kthread
+Classifier: Development Status :: 4 - Beta
+Classifier: Programming Language :: Python :: 3 :: Only
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Topic :: Scientific/Engineering :: Visualization
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Classifier: Topic :: Text Editors :: Text Processing
+Classifier: Topic :: Text Processing :: General
+Classifier: Topic :: Text Processing :: Indexing
+Classifier: Topic :: Text Processing :: Filters
+Classifier: Topic :: Utilities
+Description-Content-Type: text/markdown
+License-File: LICENSE.rst
+
+
+# A "killable" sleep function for kthread
+
+
+https://pypi.org/project/kthread/
+
+**From kthread's pypi site:**
+*Assuming that the thread is not blocked by an operating system call (such as sleep, accept, or recv), the thread will forcefully quit.*
+
+
+```python
+pip install kthread-sleep 
+import kthread
+import sys
+from kthread_sleep import sleep
+def func():
+    try:
+        sleep(2000000)
+    finally:
+        sys.stdout.write("Greetings from Vice City!\n")
+        sys.stdout.flush()
+
+t = kthread.KThread(target = func, name = "KillableThread1")
+t.start()
+sleep(.1)
+print(t.is_alive())
+t.kill()
+sleep(.1)
+print(t.is_alive())
+
+True
+Greetings from Vice City!
+False
+
+
+```
+
+
+

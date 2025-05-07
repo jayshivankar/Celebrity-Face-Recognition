@@ -1,0 +1,92 @@
+# pywinpipe - Fast data exchange between 2 processes (Windows only)
+
+## pip install pywinpipe
+
+The pywinpipe module with the 2 classes: Write2Pipe and ReadFromPipe can be beneficial for people who need to establish 
+inter-process communication (IPC) between different programs or components on a Windows system.
+
+By utilizing named pipes, this module enables communication through a simple and efficient mechanism.
+Some potential beneficiaries of this module include:
+
+Client-Server Applications: The module allows for communication between a client and a server process, facilitating 
+data exchange and coordination between the two.
+
+Inter-Process Communication: Developers can use this module to establish communication channels between different 
+processes within a system, enabling them to exchange information or coordinate actions.
+
+Automation and Scripting: System administrators can utilize this module to automate tasks or build scripts that 
+involve communication between different components or programs.
+
+Advantages of using named pipes for inter-process communication include:
+
+Simplicity: Named pipes provide a straightforward and easy-to-use mechanism for communication between processes. 
+They abstract away the complexities of lower-level protocols and offer a simple API 
+for reading from and writing to the pipe.
+
+Efficiency: Named pipes are efficient for communication within a single machine, as they leverage shared memory 
+and kernel-level synchronization. This results in faster data transfer compared to other IPC mechanisms.
+
+Security: Named pipes offer built-in security features, allowing for secure communication between 
+processes. Access to the pipe can be controlled through permissions, ensuring that only 
+authorized processes can read from or write to the pipe.
+
+Overall, the Write2Pipe and ReadFromPipe module simplifies inter-process communication using named pipes, 
+offering an efficient and reliable solution for data exchange and coordination between 
+different components or programs on a Windows system.
+
+
+- Write2Pipe: Allows writing messages to a named pipe.
+- ReadFromPipe: Allows reading messages from a named pipe.
+
+
+```python
+# create a file: pipewrite.py
+from pywinpipe import Write2Pipe
+
+with Write2Pipe(pipename=r"\\.\pipe\example",
+                nMaxInstances=1,
+                nOutBufferSize=65536,
+                nInBufferSize=65536,
+                timeout=0, ) as ba:
+    for _ in range(10):
+        ba.write_message(b"bababababa" * 2000)
+
+
+# create another file: piperead.py
+from pywinpipe import ReadFromPipe
+import numpy as np
+
+with ReadFromPipe(pipename=r"\\.\pipe\example", ) as baba:
+
+    num = np.array([1])
+    erx = baba.read_message()
+    while len(num)>0:
+        try:
+            er = next(erx)
+            num = np.frombuffer(er[0][:er[1]], dtype='S1')
+            print(f'read {er[1]} bytes: {num}')
+        except Exception:
+            print(er)
+
+# execute pipewrite.py and then piperead.py
+
+
+# output  pipewrite.py:
+
+# Waiting for clients
+# Client connected
+
+# output  piperead.py:
+
+read 20000 bytes: [b'b' b'a' b'b' ... b'a' b'b' b'a']
+read 20000 bytes: [b'b' b'a' b'b' ... b'a' b'b' b'a']
+read 20000 bytes: [b'b' b'a' b'b' ... b'a' b'b' b'a']
+read 20000 bytes: [b'b' b'a' b'b' ... b'a' b'b' b'a']
+read 20000 bytes: [b'b' b'a' b'b' ... b'a' b'b' b'a']
+read 20000 bytes: [b'b' b'a' b'b' ... b'a' b'b' b'a']
+read 20000 bytes: [b'b' b'a' b'b' ... b'a' b'b' b'a']
+read 20000 bytes: [b'b' b'a' b'b' ... b'a' b'b' b'a']
+read 20000 bytes: [b'b' b'a' b'b' ... b'a' b'b' b'a']
+read 20000 bytes: [b'b' b'a' b'b' ... b'a' b'b' b'a']
+read 0 bytes: []
+```
