@@ -11,4 +11,6 @@ def classify_image():
     return response
 
 if __name__=="__main__":
+    print("Starting Python Flask Server For Sports Celebrity Image Classification")
+    utils.load_saved_artifacts()
     app.run(port=5000)
