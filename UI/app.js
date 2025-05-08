@@ -18,7 +18,7 @@ function init() {
     dz.on("complete", function (file) {
         let imageData = file.dataURL;
         
-        var url = "http://127.0.0.1:5000/classify_image";
+        var url = "http://127.0.0.1:5555/classify-image";
 
         $.post(url, {
             image_data: file.dataURL
@@ -31,7 +31,7 @@ function init() {
                 $("#error").show();
                 return;
             }
-            let players = ["lionel_messi", "maria_sharapova", "roger_federer", "serena_williams", "virat_kohli"];
+            let players = ["virat_kohli", "lebron_james", "ronaldo", "maria_sharapova", "roger_federer"];
             
             let match = null;
             let bestScore = -1;

@@ -2,7 +2,7 @@ from flask import Flask,request,jsonify
 import utils
 app = Flask(__name__)
 
-@app.route('/classify image',methods = ['GET','POST'])
+@app.route('/classify-image',methods = ['GET','POST'])
 def classify_image():
     image_data = request.form['image_data']
 
