@@ -93,6 +93,17 @@ def get_b64_test_image_for_virat():
 if __name__ == '__main__':
     load_saved_artifacts()
 
-#    print(classify_image(get_b64_test_image_for_virat(), None))
-    print(classify_image(None, "/home/jay/Sports_person_classifier/Model/test_images/ronaldo.jpg"))
-  #  print(classify_image(None, "/home/jay/Sports_person_classifier/Model/test_images/virat-kohli.png"))
+
+# This code is part of an image classification pipeline that:
+#
+# Loads a pre-trained model and class mappings from disk (load_saved_artifacts).
+#
+# Processes input images, either from a file path or base64 string.
+#
+# Detects faces with at least two eyes using Haar cascades and crops those regions.
+#
+# Preprocesses the cropped images (resizing, wavelet transformation).
+#
+# Combines raw and wavelet-transformed features, reshapes them, and classifies the image using the loaded model.
+#
+# Returns prediction results including the predicted class, class probabilities, and the class dictionary.
